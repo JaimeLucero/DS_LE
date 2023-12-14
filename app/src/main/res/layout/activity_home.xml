@@ -5,19 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.HomeActivity">
+    tools:context=".activity.HomeActivity"
+    android:background="@color/off_white">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="423dp"
-        android:layout_height="89dp"
-        android:layout_weight="1"
+
+
+    <!-- Auto layout, variables, and unit scale are not yet supported -->
+    <View
+        android:id="@+id/rectangle_6"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#776B5D"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/rectangle_6" />
+        app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/taskhub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:gravity="top"
+        android:text="@string/taskhub"
+        android:textAppearance="@style/taskhub"
+        app:layout_constraintBottom_toBottomOf="@+id/rectangle_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="409dp"
+        android:layout_height="645dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rectangle_6" />
+
+    <Button
+        android:id="@+id/hamburger"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/menu"
+        app:layout_constraintEnd_toEndOf="@+id/rectangle_6"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toEndOf="@+id/taskhub"
+        app:layout_constraintTop_toTopOf="parent"
+        app:backgroundTint="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
