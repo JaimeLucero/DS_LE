@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
     <!-- styles.xml -->
     <style name="taskhub">
         <item name="android:textSize">40sp</item>
@@ -61,5 +65,9 @@
         <item name="android:shadowDy">4</item>
         <item name="android:shadowRadius">4</item>
     </style>
-
+    <!-- Style for MainActivity without ActionBar -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

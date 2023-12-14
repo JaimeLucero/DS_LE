@@ -1,7 +1,9 @@
-package com.example.ds_le;
+package com.example.ds_le.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.ds_le.R;
 
 public class NewTaskActivity extends AppCompatActivity {
 
