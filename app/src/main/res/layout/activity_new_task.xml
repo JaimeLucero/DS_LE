@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/off_white"
     android:orientation="vertical"
-    tools:context=".activity.HomeActivity"
-    android:background="@color/off_white">
-
+    tools:context=".activity.HomeActivity">
 
 
     <!-- Auto layout, variables, and unit scale are not yet supported -->
@@ -32,28 +31,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="96dp"
         android:gravity="top"
         android:text="@string/taskhub"
         android:textAppearance="@style/taskhub"
-        app:layout_constraintBottom_toBottomOf="@+id/rectangle_6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintEnd_toStartOf="@+id/hamburger"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.516" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/hamburger"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/menu"
+        android:contentDescription="Open Navigation Menu"
         app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="@+id/rectangle_6"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Open Navigation Menu"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/new_task"
@@ -61,13 +59,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginBottom="588dp"
         android:gravity="top"
         android:text="New Task"
         android:textAppearance="@style/new_task"
-        app:layout_constraintBottom_toTopOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
@@ -90,29 +90,27 @@
 
     <TextView
         android:id="@+id/title_"
-        android:layout_width="78dp"
-        android:layout_height="17dp"
+        android:layout_width="83dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="246dp"
+        android:layout_marginTop="204dp"
         android:gravity="top"
         android:text="Title:"
         android:textAppearance="@style/title_"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
-        android:backgroundTint="@color/dark_brown"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/dark_brown"
+        android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -120,19 +118,16 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="71dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/off_white"
         android:ems="15"
         android:inputType="text"
         android:text="Title"
         android:textAppearance="@style/title_"
         android:textColor="@color/off_white"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_" />
 
     <TextView
         android:id="@+id/description"
@@ -140,34 +135,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="249dp"
+        android:layout_marginTop="12dp"
         android:gravity="top"
         android:text="Description:"
         android:textAppearance="@style/title_"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <EditText
         android:id="@+id/description_txt"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginTop="14dp"
+        android:backgroundTint="@color/off_white"
         android:ems="15"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
         android:hint="Enter description"
+        android:inputType="textMultiLine"
         android:textColorHint="@color/off_white"
-        android:backgroundTint="@color/off_white"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.266"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <TextView
         android:id="@+id/deadline_"
@@ -175,45 +166,40 @@
         android:layout_height="17dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="372dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginTop="12dp"
         android:gravity="top"
         android:text="Deadline:"
         android:textAppearance="@style/title_"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_txt" />
 
     <EditText
         android:id="@+id/due_date"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="404dp"
-        android:layout_marginEnd="71dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="@color/off_white"
         android:ems="6"
         android:inputType="date"
         android:text="DD/MM/YYYY"
         android:textAppearance="@style/title_"
         android:textColor="@color/off_white"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.176"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deadline_" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="588dp"
         android:minHeight="48dp"
         android:popupBackground="@color/off_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toEndOf="@+id/new_task"
-        app:layout_constraintTop_toBottomOf="@+id/rectangle_6" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
