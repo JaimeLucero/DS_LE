@@ -5,5 +5,5 @@
     <font android:fontStyle="normal" android:fontWeight="800" android:font="@font/inter_extrabold" />
     <font android:fontStyle="normal" android:fontWeight="700" android:font="@font/inter_bold" />
     <font android:fontStyle="normal" android:fontWeight="700" android:font="@font/inter_light" />
-    <font android:fontStyle="normal" android:fontWeight="700" android:font="@font/inter_black"
+    <font android:fontStyle="normal" android:fontWeight="700" android:font="@font/inter_black" />
 </font-family>
