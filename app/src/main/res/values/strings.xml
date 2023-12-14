@@ -11,5 +11,16 @@
     <string name="title">
     Title
     </string>
+    <string name="open_navigation_menu">Open Navigation Menu</string>
+    <string name="new_task">New Task</string>
+    <string name="description">Description:</string>
+    <string name="add">Add</string>
+    <string name="deadline">Deadline:</string>
+    <string name="done">Done</string>
+    <string name="priority">Priority</string>
+    <string name="date">Date</string>
+    <string name="title_">Title:</string>
+    <string name="title__">Title</string>
+    <string name="description_">Description</string>
 </resources>
 
