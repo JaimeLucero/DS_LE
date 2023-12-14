@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DS_LE"
         tools:targetApi="31" >
+        <activity
+            android:name=".NewTaskActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".EntryCard"
             android:exported="false" >
