@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.ds_le.activity.HomeActivity;
+import com.example.ds_le.objects.EntriesHash;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        EntriesHash hash = new EntriesHash(this);
         findViewById(android.R.id.content).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

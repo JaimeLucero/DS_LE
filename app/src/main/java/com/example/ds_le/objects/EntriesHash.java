@@ -1,34 +1,48 @@
 package com.example.ds_le.objects;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntriesHash {
-    HashMap<String, Object> entries;
-    String file;
-    String list;
+    private static HashMap<String, Object> entries;
     private final Context context;
-    EntriesHash hash;
-    EntriesHash(Context context){
+
+    private static  EntriesHash instance;
+
+    private static final String PREF_NAME = "MyAppPreferences";
+    private static final String KEY_HASHMAP = "myHashMap";
+    public EntriesHash(Context context){
         this.context = context;
-        file = "";
-        entries = null;
+        this.entries = new HashMap<>();
+        loadHashMap(context);
     }
 
-    public void setFile(String file, String list) {
-        this.file = file;
-        this.list = list;
+    public static synchronized EntriesHash getInstance(Context context) {
+        if (instance == null) {
+            instance = new EntriesHash(context);
+        }
+        return instance;
     }
 
     public void addEntry(String key, Object entry){
         entries.put(key, entry);
+        for (Map.Entry<String, Object> i : entries.entrySet()) {
+            System.out.println("Key: " + i.getKey() + ", Value: " + i.getValue());
+        }
     }
 
     public void updateEntry(String key, Object entry){
@@ -39,60 +53,43 @@ public class EntriesHash {
         entries.remove(key);
     }
 
-    private void readFile(){
-        try {
-            // Read JSON data from the assets folder
-            String json = loadJSONFromAsset(file);
 
-            // Parse the JSON data
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray entries = jsonObject.getJSONArray(list);
+    public static HashMap<String, Task> loadHashMap(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-            if(list == "Notes"){
-                for (int i = 0; i < entries.length(); i++) {
-                    JSONObject note = entries.getJSONObject(i);
-                    String id = note.getString("id");
-                    String title = note.getString("title");
-                    String description = note.getString("description");
+        // Retrieve the JSON string from SharedPreferences
+        String jsonHashMap = sharedPreferences.getString(KEY_HASHMAP, null);
 
-                    Note noteItem = new Note(id, title, description);
-                    addEntry(id, noteItem);
-                }
-            } else {
-                for (int i = 0; i < entries.length(); i++) {
-                    JSONObject task = entries.getJSONObject(i);
-                    String id = task.getString("id");
-                    String title = task.getString("title");
-                    String description = task.getString("description");
-                    String deadline = task.getString("deadline");
-                    String category = task.getString("category");
-                    boolean isPriority = task.getBoolean("isPriority");
-                    boolean isDone = task.getBoolean("isDone");
+        // Convert JSON string back to HashMap using Gson library
+        Gson gson = new Gson();
+        Type type = new com.google.gson.reflect.TypeToken<HashMap<String,Task>>() {}.getType();
+        HashMap<String, Task> myHashMap = gson.fromJson(jsonHashMap, type);
 
-                    Task taskItem = new Task(id, title, description, deadline, category, isPriority, isDone);
-                    addEntry(id, taskItem);
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // Return the loaded HashMap
+        return myHashMap;
     }
 
-    private String loadJSONFromAsset(String filename) {
-        String json;
-        try {
-            AssetManager manager = context.getAssets();
-            InputStream is = manager.open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
+    public static void saveHashMap(Context context, HashMap<String, Task> myHashMap) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Convert HashMap to JSON string using Gson library
+        Gson gson = new Gson();
+        String jsonHashMap = gson.toJson(myHashMap);
+
+        // Save the JSON string in SharedPreferences
+        editor.putString(KEY_HASHMAP, jsonHashMap);
+        editor.apply();
     }
+
+    public static String generateHashKey(Task value) {
+        // Example: Using hashCode as a key
+        return String.valueOf(value.hashCode());
+    }
+
+    public static String generateUniqueUUID() {
+        return UUID.randomUUID().toString() + System.currentTimeMillis();
+    }
+
+
 }

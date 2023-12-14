@@ -18,11 +18,12 @@ public class Task {
         isDone = false;
     };
 
-    Task(String id, String title, String description, String deadline,String category, boolean isPriority, boolean isDone){
+    public Task(String id, String title, String description, String deadline, String category, boolean isPriority, boolean isDone){
         this.id = id;
         this.title = title;
         this.description = description;
         this.deadline = description;
+        this.deadline = deadline;
         this.category = category;
         this.isPriority = isPriority;
         this.isDone = isDone;

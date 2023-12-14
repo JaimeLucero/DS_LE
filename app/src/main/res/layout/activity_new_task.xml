@@ -31,21 +31,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="96dp"
         android:gravity="top"
         android:text="@string/taskhub"
         android:textAppearance="@style/taskhub"
         app:layout_constraintEnd_toStartOf="@+id/hamburger"
-        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintHorizontal_bias="0.303"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/hamburger"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="28dp"
         android:background="@drawable/menu"
         android:contentDescription="Open Navigation Menu"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="66dp"
         android:gravity="top"
@@ -67,10 +67,10 @@
         android:textAppearance="@style/new_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005" />
+        app:layout_constraintVertical_bias="0.003" />
 
     <View
         android:id="@+id/view"
@@ -106,13 +106,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/add_task"
+        android:id="@+id/confirm_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/dark_brown"
         android:text="Add"
+        android:textAppearance="@style/title_"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -124,7 +125,8 @@
         android:backgroundTint="@color/off_white"
         android:ems="15"
         android:inputType="text"
-        android:text="Title"
+        android:hint="Title"
+        android:textColorHint="@color/off_white"
         android:textAppearance="@style/title_"
         android:textColor="@color/off_white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -150,17 +152,18 @@
         android:id="@+id/description_txt"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/off_white"
         android:ems="15"
-        android:gravity="start|top"
-        android:hint="Enter description"
-        android:inputType="textMultiLine"
+        android:inputType="text"
+        android:hint="Description"
+        android:gravity="top"
         android:textColorHint="@color/off_white"
+        android:textAppearance="@style/title_"
+        android:textColor="@color/off_white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/description"/>
 
     <TextView
         android:id="@+id/deadline_"
@@ -177,22 +180,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description_txt" />
 
-    <EditText
-        android:id="@+id/due_date"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/off_white"
-        android:ems="6"
-        android:inputType="date"
-        android:text="DD/MM/YYYY"
-        android:textAppearance="@style/title_"
-        android:textColor="@color/off_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.176"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deadline_" />
-
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="150dp"
@@ -205,5 +192,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.003" />
+
+    <Button
+        android:id="@+id/set_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:text="Date"
+        android:textAppearance="@style/title_"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deadline_" />
+
+    <CheckBox
+        android:id="@+id/doneCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="84dp"
+        android:backgroundTint="@color/off_white"
+        android:text="Done"
+        android:textColor="@color/off_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priorityCheck"
+        app:layout_constraintVertical_bias="0.128" />
+
+    <CheckBox
+        android:id="@+id/priorityCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:backgroundTint="@color/off_white"
+        android:text="Priority"
+        android:textColor="@color/off_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_txt"
+        app:layout_constraintVertical_bias="0.03" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@
         tools:targetApi="31" >
         <activity
             android:name=".activity.NewTaskActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
 
         <receiver
