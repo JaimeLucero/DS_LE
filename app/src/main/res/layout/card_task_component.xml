@@ -10,14 +10,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/light_brown"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/light_brown">
+        android:padding="16dp">
 
         <!-- Add your custom views here -->
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -29,7 +30,7 @@
             android:textAppearance="@style/title" />
 
         <TextView
-            android:id="@+id/due_date"
+            android:id="@+id/card_due"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="false"
@@ -41,17 +42,17 @@
             android:textAppearance="@style/title" />
 
         <TextView
-            android:id="@+id/lorem_ipsum"
+            android:id="@+id/card_desc"
             android:layout_width="277dp"
             android:layout_height="56dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginBottom="25dp"
             android:gravity="top"
             android:text="description"
             android:textAppearance="@style/description" />
@@ -63,18 +64,23 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/checkbox"
+            android:layout_toStartOf="@+id/done_card"
             app:srcCompat="@android:drawable/ic_menu_delete" />
 
-        <ImageView
-            android:id="@+id/checkbox"
-            android:layout_width="20dp"
+        <CheckBox
+            android:id="@+id/done_card"
+            android:layout_width="65dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            app:srcCompat="@android:drawable/checkbox_off_background" />
+            android:backgroundTint="@color/off_white"
+            android:text="@string/done"
+            android:textColor="@color/off_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.128" />
 
 
     </RelativeLayout>

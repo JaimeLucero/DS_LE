@@ -1,6 +1,7 @@
 package com.example.ds_le.objects;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,11 +15,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class EntriesHash {
-    private static HashMap<String, Object> entries;
+    private static HashMap<String, Task> entries;
     private final Context context;
 
     private static  EntriesHash instance;
@@ -38,14 +40,14 @@ public class EntriesHash {
         return instance;
     }
 
-    public void addEntry(String key, Object entry){
+    public void addEntry(String key, Task entry){
         entries.put(key, entry);
-        for (Map.Entry<String, Object> i : entries.entrySet()) {
+        for (Map.Entry<String, Task> i : entries.entrySet()) {
             System.out.println("Key: " + i.getKey() + ", Value: " + i.getValue());
         }
     }
 
-    public void updateEntry(String key, Object entry){
+    public void updateEntry(String key, Task entry){
         entries.replace(key, entry);
     }
 
@@ -53,6 +55,30 @@ public class EntriesHash {
         entries.remove(key);
     }
 
+    public static HashMap<String, Task> getEntries() {
+        return entries;
+    }
+
+    public int getSize(){
+        return entries.size();
+    }
+
+    public Task getTask(String key){
+        return entries.get(key);
+    }
+    public String getKeyAtPosition(int position) {
+        // Convert HashMap keys to a List
+        List<String> keys = new ArrayList<>(entries.keySet());
+
+        // Check if the index is within the valid range
+        if (position >= 0 && position < keys.size()) {
+            // Get the key at the specified index
+            return keys.get(position);
+        } else {
+            // Handle the case where the index is out of bounds
+            return null;
+        }
+    }
 
     public static HashMap<String, Task> loadHashMap(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

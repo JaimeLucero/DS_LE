@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,16 +71,26 @@ public class NewTaskActivity extends AppCompatActivity {
         add_task.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
+                inTitle = findViewById(R.id.title);
+                title = inTitle.getText().toString();
+
+                inDescription = findViewById(R.id.description_txt);
+                description = inDescription.getText().toString();
+
                 addToHash();
                 remainingTime();
+
+                // Assuming you want to go back to the HomeActivity
+                Intent intent = new Intent(NewTaskActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+                // Optionally, you can finish the current activity if you don't want to come back to it
+                finish();
             }
         });
 
-        inTitle = findViewById(R.id.title);
-        title = inTitle.getText().toString();
 
-        inDescription = findViewById(R.id.description_txt);
-        description = inDescription.getText().toString();
 
 
         Spinner spinner = findViewById(R.id.spinner);
@@ -143,6 +154,7 @@ public class NewTaskActivity extends AppCompatActivity {
             isDone = false;
             // CheckBox is unchecked
         }
+
 
     }
 
