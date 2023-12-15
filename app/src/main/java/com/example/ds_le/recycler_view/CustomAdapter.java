@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ds_le.R;
@@ -11,12 +12,14 @@ import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
     private EntriesHash hash;
     private Context context;
+    private ItemTouchHelper itemTouchHelper;
 
     private List<Task> filteredList;
     public CustomAdapter(Context context, EntriesHash hash) {
@@ -43,11 +46,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         notifyDataSetChanged(); // Notify the adapter that the data set has changed
     }
 
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
+        this.itemTouchHelper = itemTouchHelper;
+    }
+
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.card_task_component, parent, false);
-        return new CustomViewHolder(view, context);
+        return new CustomViewHolder(view, context, itemTouchHelper);
     }
 
     @Override
@@ -65,21 +72,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             holder.setTitle(title);
             holder.setDue(dueDate);
             holder.setDescription(description);
+            holder.setTask(data);
         }
+
+
     }
+
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(filteredList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
 
     @Override
     public int getItemCount() {
         return filteredList.size();
     }
 
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         TaskItem taskItem;
-        public CustomViewHolder(@NonNull View itemView, Context context) {
+        ItemTouchHelper itemTouchHelper;
+        public CustomViewHolder(@NonNull View itemView, Context context,ItemTouchHelper itemTouchHelper) {
             super(itemView);
+            this.itemTouchHelper = itemTouchHelper; // Set the ItemTouchHelper
+            itemView.setOnLongClickListener(this);
             try {
                 taskItem = new TaskItem(context);
-
                 // If the itemView is a ViewGroup (e.g., a RelativeLayout or a LinearLayout),
                 // you can directly set the TaskItem as the content of the item view
                 if (itemView instanceof ViewGroup) {
@@ -102,5 +120,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         public void setTitle(String title) {
             taskItem.setTitleTextView(title);
         }
+
+        public void setTask(Task task) {
+            taskItem.setTask(task);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            itemTouchHelper.startDrag(this);
+            return true;
+        }
+
+        @Override
+        public boolean onLongClickUseDefaultHapticFeedback(@NonNull View v) {
+            return View.OnLongClickListener.super.onLongClickUseDefaultHapticFeedback(v);
+        }
     }
 }
+
+

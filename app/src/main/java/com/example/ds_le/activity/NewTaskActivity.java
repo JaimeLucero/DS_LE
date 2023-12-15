@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -133,33 +134,19 @@ public class NewTaskActivity extends AppCompatActivity {
         //priority checbox
         CheckBox priority = findViewById(R.id.priorityCheck);
 
-        // Check the current status of the CheckBox
-        boolean isCheckedPriority = priority.isChecked();
-
-        // Do something based on the CheckBox status
-        if (isCheckedPriority) {
-            isPriority = true;
-            // CheckBox is checked
-        } else {
-            isPriority = false;
-            // CheckBox is unchecked
-        }
-
-
-        //done checkbox
-        CheckBox done = findViewById(R.id.doneCheck);
-
-        // Check the current status of the CheckBox
-        boolean isCheckedDone = done.isChecked();
-
-        // Do something based on the CheckBox status
-        if (isCheckedDone) {
-            isDone = true;
-            // CheckBox is checked
-        } else {
-            isDone = false;
-            // CheckBox is unchecked
-        }
+        priority.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Do something based on the CheckBox status
+                if (isChecked) {
+                    isPriority = true;
+                    // CheckBox is checked
+                } else {
+                    isPriority= false;
+                    // CheckBox is unchecked
+                }
+            }
+        });
 
 
     }

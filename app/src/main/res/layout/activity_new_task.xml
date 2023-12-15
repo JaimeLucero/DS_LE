@@ -208,19 +208,6 @@
         app:layout_constraintTop_toBottomOf="@+id/deadline_" />
 
     <CheckBox
-        android:id="@+id/doneCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:backgroundTint="@color/off_white"
-        android:text="@string/done"
-        android:textColor="@color/off_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/priorityCheck"
-        app:layout_constraintVertical_bias="0.128" />
-
-    <CheckBox
         android:id="@+id/priorityCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.example.ds_le.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.ds_le.R;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.recycler_view.CustomAdapter;
+import com.example.ds_le.recycler_view.ItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +43,12 @@ public class HomeActivity extends AppCompatActivity {
 
 
         RecyclerView recyclerView = findViewById(R.id.home_recycler);
-        CustomAdapter customAdapter = new CustomAdapter(this,hash);
+        CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this,hash);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(customAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(customAdapter));
+        customAdapter.setItemTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
 
