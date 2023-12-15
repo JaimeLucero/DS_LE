@@ -1,6 +1,8 @@
 package com.example.ds_le.recycler_view;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -10,7 +12,9 @@ import android.widget.Toast;
 
 import com.example.ds_le.R;
 import com.example.ds_le.activity.HomeActivity;
+import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
+import com.google.android.material.snackbar.Snackbar;
 
 public class TaskItem extends RelativeLayout{
     private TextView titleTextView;
@@ -22,10 +26,16 @@ public class TaskItem extends RelativeLayout{
 
     private Task task;
     private Context context;
-    public TaskItem(Context context) {
+    private EntriesHash hash;
+
+    private int position;
+    CustomAdapter ca;
+    public TaskItem(Context context, EntriesHash hash, CustomAdapter ca) {
         super(context);
         this.context=context;
         init(context);
+        this.hash = hash;
+        this.ca = ca;
     }
 
     private void init(Context context) {
@@ -38,7 +48,6 @@ public class TaskItem extends RelativeLayout{
         descriptionTextView = findViewById(R.id.card_desc);
         deleteImageView = findViewById(R.id.delete);
         checkbox = findViewById(R.id.done_card);
-
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -47,15 +56,41 @@ public class TaskItem extends RelativeLayout{
                     isDone = true;
                     // CheckBox is checked
                     setDone(isDone);
-                    Toast.makeText(context, "Task done.", Toast.LENGTH_SHORT).show();
                 } else {
                     isDone = false;
-                    Toast.makeText(context, "Task undone.", Toast.LENGTH_SHORT).show();
                     // CheckBox is unchecked
                 }
             }
         });
 
+        deleteImageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                hash.deleteEntry(hash.getKeyByValue(task));
+                showUndoSnackbar(v);
+                ca.removeItem(position);
+            }
+        });
+
+    }
+
+    private void showUndoSnackbar(View view) {
+        Snackbar snackbar = Snackbar.make(view, "Task deleted", Snackbar.LENGTH_LONG)
+                .setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Undo action, handle accordingly
+                        showToast("Undo clicked");
+                        hash.addEntry(hash.generateUniqueUUID(),task);
+                        ca.addItem(position, task);
+                    }
+                });
+
+        snackbar.show();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     public void setTitleTextView(String title) {
@@ -86,7 +121,15 @@ public class TaskItem extends RelativeLayout{
         task.setDone(done);
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public void setCheckbox(boolean check) {
+        this.checkbox.setChecked(check);
     }
 }

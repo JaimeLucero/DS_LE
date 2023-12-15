@@ -2,6 +2,7 @@ package com.example.ds_le.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -48,6 +49,7 @@ public class NewTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
         hash = EntriesHash.getInstance(this);
+        new TaskApplication(hash);
 
         datePickerButton = findViewById(R.id.set_date);
         // Get the current date and time
@@ -234,4 +236,17 @@ public class NewTaskActivity extends AppCompatActivity {
         hash.addEntry(hash.generateHashKey(task),task);
     }
 
+}
+
+class TaskApplication extends Application {
+    EntriesHash hash;
+    TaskApplication(EntriesHash hash){
+        this.hash = hash;
+    }
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        // Save your HashMap here
+        hash.saveHashMap(getApplicationContext(), hash.getEntries());
+    }
 }

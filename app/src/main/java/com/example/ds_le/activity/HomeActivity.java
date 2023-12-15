@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         hash = EntriesHash.getInstance(this);
+        new MyApplication(hash);
+
         Button addTask = findViewById(R.id.add_task);
 
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +52,6 @@ public class HomeActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(customAdapter));
         customAdapter.setItemTouchHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
 
         Spinner spinner = findViewById(R.id.task_spinner);
 
@@ -88,6 +89,42 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // This method is called when the application is closing
+        // Save your HashMap here
+        hash.saveHashMap(getApplicationContext(), hash.getEntries());
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // This method is called when the application is closing
+        // Save your HashMap here
+        hash.saveHashMap(getApplicationContext(), hash.getEntries());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // This method is called when the application is closing
+        // Save your HashMap here
+        hash.saveHashMap(getApplicationContext(), hash.getEntries());
+    }
+}
 
 
+class MyApplication extends Application {
+    EntriesHash hash;
+    MyApplication(EntriesHash hash){
+        this.hash = hash;
+    }
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        // Save your HashMap here
+        hash.saveHashMap(getApplicationContext(), hash.getEntries());
+    }
 }

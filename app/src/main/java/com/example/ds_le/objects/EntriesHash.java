@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -58,29 +59,15 @@ public class EntriesHash {
     public static HashMap<String, Task> getEntries() {
         return entries;
     }
-
-    public int getSize(){
-        return entries.size();
-    }
-
-    public Task getTask(String key){
-        return entries.get(key);
-    }
-    public String getKeyAtPosition(int position) {
-        // Convert HashMap keys to a List
-        List<String> keys = new ArrayList<>(entries.keySet());
-
-        // Check if the index is within the valid range
-        if (position >= 0 && position < keys.size()) {
-            // Get the key at the specified index
-            return keys.get(position);
-        } else {
-            // Handle the case where the index is out of bounds
-            return null;
+    public String getKeyByValue(Task task) {
+        for (Map.Entry<String, Task> entry : entries.entrySet()) {
+            if (task.equals(entry.getValue())) {
+                return entry.getKey();
+            }
         }
+        return null; // Value not found in the map
     }
-
-    public static HashMap<String, Task> loadHashMap(Context context) {
+    public static void loadHashMap(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         // Retrieve the JSON string from SharedPreferences
@@ -90,9 +77,11 @@ public class EntriesHash {
         Gson gson = new Gson();
         Type type = new com.google.gson.reflect.TypeToken<HashMap<String,Task>>() {}.getType();
         HashMap<String, Task> myHashMap = gson.fromJson(jsonHashMap, type);
+        entries = myHashMap;
 
-        // Return the loaded HashMap
-        return myHashMap;
+        // In loadHashMap
+        Log.d("LoadHashMap", "Loaded JSON: " + jsonHashMap);
+
     }
 
     public static void saveHashMap(Context context, HashMap<String, Task> myHashMap) {
@@ -106,6 +95,8 @@ public class EntriesHash {
         // Save the JSON string in SharedPreferences
         editor.putString(KEY_HASHMAP, jsonHashMap);
         editor.apply();
+        Log.d("SaveHashMap", "Saved JSON: " + jsonHashMap);
+
     }
 
     public static String generateHashKey(Task value) {

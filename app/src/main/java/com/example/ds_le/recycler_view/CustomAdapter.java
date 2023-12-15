@@ -6,11 +6,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.ds_le.R;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +52,21 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.card_task_component, parent, false);
-        return new CustomViewHolder(view, context, itemTouchHelper);
+        return new CustomViewHolder(view, context, itemTouchHelper, hash, this);
+    }
+
+    public void removeItem(int position) {
+        if (position >= 0 && position < filteredList.size()) {
+            filteredList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void addItem(int position, Task task) {
+            // Add the item back to filteredList
+            Task removedTask = task;
+            filteredList.add(position, removedTask);
+            notifyItemInserted(position);
     }
 
     @Override
@@ -73,6 +85,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             holder.setDue(dueDate);
             holder.setDescription(description);
             holder.setTask(data);
+            holder.setDone(data.isDone());
+            holder.setPosition(position);
         }
 
 
@@ -92,12 +106,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         TaskItem taskItem;
         ItemTouchHelper itemTouchHelper;
-        public CustomViewHolder(@NonNull View itemView, Context context,ItemTouchHelper itemTouchHelper) {
+        public CustomViewHolder(@NonNull View itemView, Context context,ItemTouchHelper itemTouchHelper, EntriesHash hash, CustomAdapter ca) {
             super(itemView);
             this.itemTouchHelper = itemTouchHelper; // Set the ItemTouchHelper
             itemView.setOnLongClickListener(this);
             try {
-                taskItem = new TaskItem(context);
+                taskItem = new TaskItem(context, hash, ca);
                 // If the itemView is a ViewGroup (e.g., a RelativeLayout or a LinearLayout),
                 // you can directly set the TaskItem as the content of the item view
                 if (itemView instanceof ViewGroup) {
@@ -123,6 +137,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public void setTask(Task task) {
             taskItem.setTask(task);
+        }
+
+        public  void setDone(boolean done){
+            taskItem.setCheckbox(done);
+        }
+
+        public void setPosition(int p){
+            taskItem.setPosition(p);
         }
 
         @Override

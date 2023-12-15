@@ -22,7 +22,6 @@ public class Task {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.deadline = description;
         this.deadline = deadline;
         this.category = category;
         this.isPriority = isPriority;
@@ -79,5 +78,19 @@ public class Task {
 
     public String getCategory() {
         return category;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", deadline='" + deadline + '\'' +
+                ", category='" + category + '\'' +
+                ", isPriority=" + isPriority +
+                ", isDone=" + isDone +
+                '}';
     }
 }
