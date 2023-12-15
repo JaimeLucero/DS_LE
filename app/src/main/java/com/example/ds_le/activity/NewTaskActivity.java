@@ -58,7 +58,7 @@ public class NewTaskActivity extends AppCompatActivity {
         // Format the current date and time
         String formattedDateTime = dateFormat.format(calendar.getTime());
 
-        datePickerButton.setText(formattedDateTime);
+        datePickerButton.setText("Select Date");
         // Set up click listener for the button
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +78,12 @@ public class NewTaskActivity extends AppCompatActivity {
                 inDescription = findViewById(R.id.description_txt);
                 description = inDescription.getText().toString();
 
+                if (title.isEmpty() || description.isEmpty() || selectedDateTime == null || selectedDateTime.isEmpty()) {
+                    // Show a Toast or Snackbar indicating that all fields are required
+                    Toast.makeText(NewTaskActivity.this, "Title, description, and date are required", Toast.LENGTH_SHORT).show();
+                    return; // Don't proceed further if any field is empty
+                }
+
                 addToHash();
                 remainingTime();
 
@@ -93,7 +99,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
 
 
-        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.new_spinner);
 
         // Create a list of items you want to add to the Spinner
         List<String> itemList = new ArrayList<>();

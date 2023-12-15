@@ -10,14 +10,37 @@ import com.example.ds_le.R;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
     private EntriesHash hash;
     private Context context;
 
+    private List<Task> filteredList;
     public CustomAdapter(Context context, EntriesHash hash) {
         this.context = context;
         this.hash = hash;
+        filteredList = new ArrayList<>();
+    }
+
+    public void filter(String category) {
+        if (filteredList != null){
+            filteredList.clear();
+        }
+        if (category.equalsIgnoreCase("All")) {
+            // If "All" is selected, show all items
+            filteredList.addAll(hash.getEntries().values());
+        } else {
+            // Filter the items based on the selected category
+            for (Task task : hash.getEntries().values()) {
+                if (task.getCategory().equalsIgnoreCase(category)) {
+                    filteredList.add(task);
+                }
+            }
+        }
+        notifyDataSetChanged(); // Notify the adapter that the data set has changed
     }
 
     @NonNull
@@ -29,23 +52,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        String key = hash.getKeyAtPosition(position);
-        Task data = hash.getTask(key);
 
-        // Assuming YourDataModel class has appropriate getter methods
-        String title = data.getTitle();
-        String dueDate = data.getDeadline();
-        String description = data.getDescription();
+        if (position >= 0 && position < filteredList.size()) {
+            Task data = filteredList.get(position);
 
-        // Bind data to your TaskItem views
-        holder.setTitle(title);
-        holder.setDue(dueDate);
-        holder.setDescription(description);
+            // Assuming YourDataModel class has appropriate getter methods
+            String title = data.getTitle();
+            String dueDate = data.getDeadline();
+            String description = data.getDescription();
+
+            // Bind data to your TaskItem views
+            holder.setTitle(title);
+            holder.setDue(dueDate);
+            holder.setDescription(description);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return hash.getSize();
+        return filteredList.size();
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
