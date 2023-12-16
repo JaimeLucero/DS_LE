@@ -1,6 +1,8 @@
 package com.example.ds_le.objects;
 
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable {
     private String id;
     private String title;
     private String description;

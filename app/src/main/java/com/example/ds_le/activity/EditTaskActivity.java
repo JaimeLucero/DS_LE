@@ -2,7 +2,7 @@ package com.example.ds_le.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.ds_le.MainActivity;
 import com.example.ds_le.R;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
@@ -32,8 +31,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-public class NewTaskActivity extends AppCompatActivity {
+public class EditTaskActivity extends AppCompatActivity {
     private Button datePickerButton;
     private EditText inTitle;
     private EditText inDescription;
@@ -44,13 +44,18 @@ public class NewTaskActivity extends AppCompatActivity {
     private boolean isPriority;
     private boolean isDone;
     public static EntriesHash hash;
+
+    String editKey;
+    Task editTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_task);
+        setContentView(R.layout.activity_edit_task);
         hash = EntriesHash.getInstance(this);
 
-        datePickerButton = findViewById(R.id.set_date);
+        editKey = getIntent().getSerializableExtra("taskObject").toString();
+        editTask = hash.getEntry(editKey);
+        datePickerButton = findViewById(R.id.edit_date);
         // Get the current date and time
         Calendar calendar = Calendar.getInstance();
 
@@ -60,7 +65,14 @@ public class NewTaskActivity extends AppCompatActivity {
         // Format the current date and time
         String formattedDateTime = dateFormat.format(calendar.getTime());
 
-        datePickerButton.setText("Select Date");
+
+        inTitle = findViewById(R.id.edit_title);
+        inDescription = findViewById(R.id.description_edit);
+
+        datePickerButton.setText(editTask.getDeadline());
+        inTitle.setText(editTask.getTitle());
+        inDescription.setText(editTask.getDescription());
+
         // Set up click listener for the button
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,28 +81,28 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         });
 
-        Button add_task = findViewById(R.id.confirm_task);
-        add_task.setOnClickListener(new View.OnClickListener(){
+        Button edit_task = findViewById(R.id.confirm_edit);
+        edit_task.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                inTitle = findViewById(R.id.title);
                 title = inTitle.getText().toString();
 
-                inDescription = findViewById(R.id.description_txt);
                 description = inDescription.getText().toString();
-
+                if(selectedDateTime == null){
+                    selectedDateTime = editTask.getDeadline();
+                }
                 if (title.isEmpty() || description.isEmpty() || selectedDateTime == null || selectedDateTime.isEmpty()) {
                     // Show a Toast or Snackbar indicating that all fields are required
-                    Toast.makeText(NewTaskActivity.this, "Title, description, and date are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTaskActivity.this, "Title, description, and date are required", Toast.LENGTH_SHORT).show();
                     return; // Don't proceed further if any field is empty
                 }
 
-                addToHash();
+                updateHash();
                 remainingTime();
 
                 // Assuming you want to go back to the HomeActivity
-                Intent intent = new Intent(NewTaskActivity.this, HomeActivity.class);
+                Intent intent = new Intent(EditTaskActivity.this, HomeActivity.class);
                 startActivity(intent);
 
                 // Optionally, you can finish the current activity if you don't want to come back to it
@@ -101,7 +113,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
 
 
-        Spinner spinner = findViewById(R.id.new_spinner);
+        Spinner spinner = findViewById(R.id.edit_spinner);
 
         // Create a list of items you want to add to the Spinner
         List<String> itemList = new ArrayList<>();
@@ -133,23 +145,15 @@ public class NewTaskActivity extends AppCompatActivity {
         });
 
         //priority checbox
-        CheckBox priority = findViewById(R.id.priorityCheck);
-
+        CheckBox priority = findViewById(R.id.priority_edit);
+        priority.setChecked(editTask.isPriority());
         priority.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Do something based on the CheckBox status
-                if (isChecked) {
-                    isPriority = true;
-                    // CheckBox is checked
-                } else {
-                    isPriority= false;
-                    // CheckBox is unchecked
-                }
+                isPriority = isChecked;
             }
         });
-
-
     }
 
     private void showDateTimePickerDialog() {
@@ -173,13 +177,14 @@ public class NewTaskActivity extends AppCompatActivity {
                         final int selectedDayOfMonth = dayOfMonth;
 
                         TimePickerDialog timePickerDialog = new TimePickerDialog(
-                                NewTaskActivity.this,
+                                EditTaskActivity.this,
                                 new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                         // Handle the selected time (e.g., update a TextView)
                                         selectedDateTime = String.format(Locale.getDefault(), "%d/%02d/%d %02d:%02d", (selectedMonth + 1), selectedDayOfMonth, selectedYear, hourOfDay, minute);
                                         datePickerButton.setText(selectedDateTime);
+
                                     }
                                 },
                                 hour,
@@ -213,7 +218,10 @@ public class NewTaskActivity extends AppCompatActivity {
             Date currentDate = dateFormat.parse(currentMonth + 1 + "/" + currentDay + "/" + currentYear + " " + currentHour + ":" + currentMinute);
             Date selectedDate = dateFormat.parse(selectedDateTime);
 
-            long timeDifference = selectedDate.getTime() - currentDate.getTime();
+            long timeDifference = 0;
+            if (currentDate != null) {
+                timeDifference = Objects.requireNonNull(selectedDate).getTime() - currentDate.getTime();
+            }
 
             long remainingHours = timeDifference / (60 * 60 * 1000);
             long remainingMinutes = (timeDifference / (60 * 1000)) % 60;
@@ -230,9 +238,10 @@ public class NewTaskActivity extends AppCompatActivity {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
-    private void addToHash(){
-        Task task = new Task(hash.generateUniqueUUID(),title,description,selectedDateTime,category,isPriority,isDone);
-        hash.addEntry(hash.generateHashKey(task),task);
-        hash.saveHashMap(this, hash.getEntries());
+    private void updateHash(){
+        Task task = new Task(EntriesHash.generateUniqueUUID(),title,description,selectedDateTime,category,isPriority,isDone);
+        //hash.addEntry(EntriesHash.generateHashKey(task),task);
+        hash.updateEntry(editKey,task);
+        EntriesHash.saveHashMap(this, EntriesHash.getEntries());
     }
 }

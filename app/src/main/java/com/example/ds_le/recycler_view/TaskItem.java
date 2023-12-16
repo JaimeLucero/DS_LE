@@ -1,5 +1,7 @@
 package com.example.ds_le.recycler_view;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -11,10 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ds_le.R;
+import com.example.ds_le.activity.EditTaskActivity;
 import com.example.ds_le.activity.HomeActivity;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.Serializable;
 
 public class TaskItem extends RelativeLayout{
     private TextView titleTextView;
@@ -48,16 +53,31 @@ public class TaskItem extends RelativeLayout{
         descriptionTextView = findViewById(R.id.card_desc);
         deleteImageView = findViewById(R.id.delete);
         checkbox = findViewById(R.id.done_card);
+
+        // Set OnClickListener for the entire TaskItem
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event, for example, open a new activity
+                openNewActivity();
+            }
+        });
+
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 // Do something based on the CheckBox status
                 if (isChecked) {
                     isDone = true;
                     // CheckBox is checked
                     setDone(isDone);
+                    hash.saveHashMap(context,hash.getEntries());
                 } else {
                     isDone = false;
+                    setDone(isDone);
+                    hash.saveHashMap(context,hash.getEntries());
                     // CheckBox is unchecked
                 }
             }
@@ -69,6 +89,7 @@ public class TaskItem extends RelativeLayout{
                 hash.deleteEntry(hash.getKeyByValue(task));
                 showUndoSnackbar(v);
                 ca.removeItem(position);
+                hash.saveHashMap(context,hash.getEntries());
             }
         });
 
@@ -83,6 +104,7 @@ public class TaskItem extends RelativeLayout{
                         showToast("Undo clicked");
                         hash.addEntry(hash.generateUniqueUUID(),task);
                         ca.addItem(position, task);
+                        hash.saveHashMap(context,hash.getEntries());
                     }
                 });
 
@@ -114,6 +136,19 @@ public class TaskItem extends RelativeLayout{
             dueDateTextView.setText(dueDate);
         } else {
             System.out.println("dueDateTextView is null. Make sure it's initialized.");
+        }
+    }
+
+    // Method to open a new activity
+    private void openNewActivity() {
+        // Assuming you have a reference to the current context, you can start a new activity
+        if (context instanceof Activity) {
+            Intent intent = new Intent(context, EditTaskActivity.class);
+            // Pass any necessary data to the new activity using intent.putExtra if needed
+            // Pass the Task object as a Serializable extra
+            intent.putExtra("taskObject", hash.getKeyByValue(task));
+
+            context.startActivity(intent);
         }
     }
 

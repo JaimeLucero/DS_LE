@@ -50,8 +50,13 @@ public class EntriesHash {
 
     public void updateEntry(String key, Task entry){
         entries.replace(key, entry);
+        for (Map.Entry<String, Task> i : entries.entrySet()) {
+            System.out.println("Key: " + i.getKey() + ", Value: " + i.getValue());
+        }
     }
-
+    public Task getEntry(String key){
+        return entries.get(key);
+    }
     public void deleteEntry(String key){
         entries.remove(key);
     }

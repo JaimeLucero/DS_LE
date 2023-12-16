@@ -4,6 +4,7 @@
     android:layout_width="330dp"
     android:layout_height="160dp"
     android:layout_margin="8dp"
+    android:layout_gravity="center_horizontal"
     app:cardCornerRadius="30dp">
 
     <!-- Your custom card content goes here -->
@@ -59,8 +60,8 @@
 
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
@@ -70,7 +71,7 @@
         <CheckBox
             android:id="@+id/done_card"
             android:layout_width="65dp"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
