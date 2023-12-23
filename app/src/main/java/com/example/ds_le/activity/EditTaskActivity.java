@@ -107,6 +107,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
                 // Optionally, you can finish the current activity if you don't want to come back to it
                 finish();
+                showToast("Task updated");
             }
         });
 
@@ -243,5 +244,9 @@ public class EditTaskActivity extends AppCompatActivity {
         //hash.addEntry(EntriesHash.generateHashKey(task),task);
         hash.updateEntry(editKey,task);
         EntriesHash.saveHashMap(this, EntriesHash.getEntries());
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

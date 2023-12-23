@@ -95,6 +95,9 @@ public class NewTaskActivity extends AppCompatActivity {
 
                 // Optionally, you can finish the current activity if you don't want to come back to it
                 finish();
+
+                showToast("Task added");
+
             }
         });
 
@@ -234,5 +237,9 @@ public class NewTaskActivity extends AppCompatActivity {
         Task task = new Task(hash.generateUniqueUUID(),title,description,selectedDateTime,category,isPriority,isDone);
         hash.addEntry(hash.generateHashKey(task),task);
         hash.saveHashMap(this, hash.getEntries());
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

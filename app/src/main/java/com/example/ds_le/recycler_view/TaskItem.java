@@ -29,7 +29,6 @@ public class TaskItem extends RelativeLayout{
     private TextView descriptionTextView;
     private ImageView deleteImageView;
     private CheckBox checkbox;
-    private boolean isDone;
 
     private Task task;
     private Context context;
