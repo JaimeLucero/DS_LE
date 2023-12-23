@@ -54,9 +54,23 @@ public class EntriesHash {
             System.out.println("Key: " + i.getKey() + ", Value: " + i.getValue());
         }
     }
+
+    public HashMap<String, Task> getDone(){
+        HashMap<String, Task> done = new HashMap<>();
+        for(Map.Entry<String, Task> entry: entries.entrySet()){
+            String key = entry.getKey();
+            Task task = entry.getValue();
+
+            if(task.isDone()){
+                done.put(key, task);
+            }
+        }
+        return done;
+    }
     public Task getEntry(String key){
         return entries.get(key);
     }
+
     public void deleteEntry(String key){
         entries.remove(key);
     }

@@ -13,15 +13,28 @@
         android:theme="@style/Theme.DS_LE"
         tools:targetApi="31">
         <activity
+            android:name=".activity.PriorityActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ArchivesActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".activity.EditTaskActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.NewTaskActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MenuActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver
-            android:name=".EntryCard"
+            android:name=".recycler_view.TaskItem"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

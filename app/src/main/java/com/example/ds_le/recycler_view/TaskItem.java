@@ -13,8 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ds_le.R;
+import com.example.ds_le.activity.ArchivesActivity;
 import com.example.ds_le.activity.EditTaskActivity;
 import com.example.ds_le.activity.HomeActivity;
+import com.example.ds_le.activity.PriorityActivity;
 import com.example.ds_le.objects.EntriesHash;
 import com.example.ds_le.objects.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,12 +37,14 @@ public class TaskItem extends RelativeLayout{
 
     private int position;
     CustomAdapter ca;
-    public TaskItem(Context context, EntriesHash hash, CustomAdapter ca) {
+    String filter;
+    public TaskItem(Context context, EntriesHash hash, CustomAdapter ca, String filter) {
         super(context);
         this.context=context;
         init(context);
         this.hash = hash;
         this.ca = ca;
+        this.filter = filter;
     }
 
     private void init(Context context) {
@@ -67,18 +71,23 @@ public class TaskItem extends RelativeLayout{
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (task != null) {
+                    task.setDone(isChecked);
+                    // Update UI or perform other actions based on the CheckBox status
+                }
+            }
+        });
 
-                // Do something based on the CheckBox status
-                if (isChecked) {
-                    isDone = true;
-                    // CheckBox is checked
-                    setDone(isDone);
-                    hash.saveHashMap(context,hash.getEntries());
-                } else {
-                    isDone = false;
-                    setDone(isDone);
-                    hash.saveHashMap(context,hash.getEntries());
-                    // CheckBox is unchecked
+        checkbox.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (task != null) {
+                    // Set the parameters based on the current context
+                    boolean filterDone = context instanceof ArchivesActivity; // Check if it's the ArchiveActivity
+                    boolean filterPriority = context instanceof PriorityActivity;
+                    ca.filter(filter, filterDone, filterPriority);
+                    hash.saveHashMap(context, hash.getEntries());
+                    showToast(task.isDone() ? "Task moved to archive." : "Task removed from archive.");
                 }
             }
         });

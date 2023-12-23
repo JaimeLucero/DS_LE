@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,13 +22,13 @@ import com.example.ds_le.recycler_view.ItemTouchHelperCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
-    public static EntriesHash hash;
-    private String filter;
+public class PriorityActivity extends AppCompatActivity {
+    private static EntriesHash hash;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_priority);
+
         hash = EntriesHash.getInstance(this);
 
         //listener for hamburger button
@@ -38,25 +37,25 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle button click here, navigate to the desired activity
-                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                Intent intent = new Intent(PriorityActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
 
         //listener for the add button
-        Button addTask = findViewById(R.id.add_task);
+        Button addTask = findViewById(R.id.add_task_priority);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle button click here, navigate to the desired activity
-                Intent intent = new Intent(HomeActivity.this, NewTaskActivity.class);
+                Intent intent = new Intent(PriorityActivity.this, NewTaskActivity.class);
                 startActivity(intent);
             }
         });
 
         //init recycler view
-        RecyclerView recyclerView = findViewById(R.id.home_recycler);
-        CustomAdapter customAdapter = new CustomAdapter(HomeActivity.this,hash);
+        RecyclerView recyclerView = findViewById(R.id.priority_recycler);
+        CustomAdapter customAdapter = new CustomAdapter(PriorityActivity.this,hash);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(customAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(customAdapter));
@@ -65,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         //init spinner
-        Spinner spinner = findViewById(R.id.task_spinner);
+        Spinner spinner = findViewById(R.id.priority_spinner);
 
         // Create a list of items you want to add to the Spinner
         List<String> itemList = new ArrayList<>();
@@ -88,11 +87,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Retrieve the selected item
-                filter = (String) parentView.getItemAtPosition(position);
-                Toast.makeText(HomeActivity.this, filter+" selected.", Toast.LENGTH_SHORT).show();
+                String filter = (String) parentView.getItemAtPosition(position);
+                Toast.makeText(PriorityActivity.this, filter+" selected.", Toast.LENGTH_SHORT).show();
                 // Call the filter method in the adapter
                 recyclerView.setAdapter(customAdapter);
-                customAdapter.filter(filter, false, false);
+                customAdapter.filter(filter,false, true);
+
             }
 
             @Override

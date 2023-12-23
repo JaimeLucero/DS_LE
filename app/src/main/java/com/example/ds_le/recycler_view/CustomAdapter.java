@@ -12,6 +12,7 @@ import com.example.ds_le.objects.Task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
@@ -20,27 +21,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private ItemTouchHelper itemTouchHelper;
 
     private List<Task> filteredList;
+    private String filter;
     public CustomAdapter(Context context, EntriesHash hash) {
         this.context = context;
         this.hash = hash;
         filteredList = new ArrayList<>();
     }
 
-    public void filter(String category) {
+    public void filter(String category, Boolean done, Boolean priority) {
+        filter = category;
         if (filteredList != null){
             filteredList.clear();
         }
-        if (category.equalsIgnoreCase("All")) {
-            // If "All" is selected, show all items
-            filteredList.addAll(hash.getEntries().values());
-        } else {
-            // Filter the items based on the selected category
-            for (Task task : hash.getEntries().values()) {
-                if (task.getCategory().equalsIgnoreCase(category)) {
-                    filteredList.add(task);
+        for (Map.Entry<String, Task> entry : hash.getEntries().entrySet()) {
+            Task task = entry.getValue();
+
+            if(category.equalsIgnoreCase("All") || task.getCategory().equals(category)){
+                if(done){
+                    if (task.isDone()) filteredList.add(task);
+                } else if (priority) {
+                    if (task.isPriority() && !task.isDone()) filteredList.add(task);
+                } else {
+                    if (!task.isDone())filteredList.add(task);
                 }
             }
         }
+
         notifyDataSetChanged(); // Notify the adapter that the data set has changed
     }
 
@@ -52,7 +58,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.card_task_component, parent, false);
-        return new CustomViewHolder(view, context, itemTouchHelper, hash, this);
+        return new CustomViewHolder(view, context, itemTouchHelper, hash, this, filter);
     }
 
     public void removeItem(int position) {
@@ -106,12 +112,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         TaskItem taskItem;
         ItemTouchHelper itemTouchHelper;
-        public CustomViewHolder(@NonNull View itemView, Context context,ItemTouchHelper itemTouchHelper, EntriesHash hash, CustomAdapter ca) {
+        public CustomViewHolder(@NonNull View itemView, Context context,ItemTouchHelper itemTouchHelper, EntriesHash hash, CustomAdapter ca, String filter) {
             super(itemView);
             this.itemTouchHelper = itemTouchHelper; // Set the ItemTouchHelper
             itemView.setOnLongClickListener(this);
             try {
-                taskItem = new TaskItem(context, hash, ca);
+                taskItem = new TaskItem(context, hash, ca, filter);
                 // If the itemView is a ViewGroup (e.g., a RelativeLayout or a LinearLayout),
                 // you can directly set the TaskItem as the content of the item view
                 if (itemView instanceof ViewGroup) {
