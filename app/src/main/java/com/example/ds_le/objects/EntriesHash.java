@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,29 +93,46 @@ public class EntriesHash {
         // Retrieve the JSON string from SharedPreferences
         String jsonHashMap = sharedPreferences.getString(KEY_HASHMAP, null);
 
-        // Convert JSON string back to HashMap using Gson library
-        Gson gson = new Gson();
-        Type type = new com.google.gson.reflect.TypeToken<HashMap<String,Task>>() {}.getType();
-        HashMap<String, Task> myHashMap = gson.fromJson(jsonHashMap, type);
-        entries = myHashMap;
+        if (jsonHashMap != null) {
+            try {
+                // Convert JSON string back to HashMap using Gson library
+                Gson gson = new Gson();
+                Type type = new com.google.gson.reflect.TypeToken<HashMap<String, Task>>() {}.getType();
+                HashMap<String, Task> myHashMap = gson.fromJson(jsonHashMap, type);
+                entries = myHashMap;
 
-        // In loadHashMap
-        Log.d("LoadHashMap", "Loaded JSON: " + jsonHashMap);
+                Log.d("LoadHashMap", "Loaded JSON: " + jsonHashMap);
+            } catch (JsonSyntaxException e) {
+                // Handle JSON parsing error
+                Log.e("LoadHashMap", "Error parsing JSON: " + e.getMessage());
+            }
+        } else {
+            // Create a new HashMap and save it to SharedPreferences
+            entries = new HashMap<>();
+            saveHashMap(context, entries);
 
+            Log.d("LoadHashMap", "Created a new HashMap");
+        }
     }
 
     public static void saveHashMap(Context context, HashMap<String, Task> myHashMap) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Convert HashMap to JSON string using Gson library
-        Gson gson = new Gson();
-        String jsonHashMap = gson.toJson(myHashMap);
+        try {
+            // Convert HashMap to JSON string using Gson library
+            Gson gson = new Gson();
+            String jsonHashMap = gson.toJson(myHashMap);
 
-        // Save the JSON string in SharedPreferences
-        editor.putString(KEY_HASHMAP, jsonHashMap);
-        editor.apply();
-        Log.d("SaveHashMap", "Saved JSON: " + jsonHashMap);
+            // Save the JSON string in SharedPreferences
+            editor.putString(KEY_HASHMAP, jsonHashMap);
+            editor.apply();
+
+            Log.d("SaveHashMap", "Saved JSON: " + jsonHashMap);
+        } catch (JsonSyntaxException e) {
+            // Handle JSON conversion error
+            Log.e("SaveHashMap", "Error converting to JSON: " + e.getMessage());
+        }
 
     }
 

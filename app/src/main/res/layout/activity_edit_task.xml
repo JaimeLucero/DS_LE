@@ -65,7 +65,7 @@
         android:text="Edit Task"
         android:textAppearance="@style/new_task"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/new_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/edit_spinner"
         app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

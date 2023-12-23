@@ -33,18 +33,6 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <receiver
-            android:name=".recycler_view.TaskItem"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/entry_card_info" />
-        </receiver>
-
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false"

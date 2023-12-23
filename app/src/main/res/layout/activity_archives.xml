@@ -11,6 +11,7 @@
 
 
     <!-- Auto layout, variables, and unit scale are not yet supported -->
+
     <View
         android:id="@+id/rectangle_6"
         android:layout_width="match_parent"
@@ -66,7 +67,7 @@
         android:text="Archives"
         android:textAppearance="@style/new_task"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/task_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/archive_spinner"
         app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
